@@ -1,9 +1,9 @@
 {
-  "name": "template-test",
+  "name": "meds-test-form",
   "version": "1.0.0",
   "description": "template for gh-pages workflow",
   "repository": {
-    "url": "https://github.com/0x9c40/template-test"
+    "url": "https://github.com/0x9c40/meds-test-form"
   },
   "scripts": {
     "webpack": "webpack",
