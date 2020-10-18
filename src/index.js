@@ -2,6 +2,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import Vue from "vue";
+import Vuelidate from "vuelidate";
+Vue.use(Vuelidate);
+
 import App from "./App.vue";
 
 Vue.config.productionTip = false;
