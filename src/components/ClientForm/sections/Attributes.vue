@@ -24,7 +24,14 @@
       name="phone_number"
       :error="$v.phone_number.$error"
     />
-    <FormSelector :options="client_groups" label="Группа клиентов*" multiple />
+    <FormSelector :options="sex_list" label="Пол" />
+    <FormSelector
+      :options="client_groups"
+      label="Группа клиентов*"
+      multiple
+      :error="$v.selectedClientGroup.$error"
+      @selection="onSelection"
+    />
     <FormSelector :options="practitioners" label="Лечащий врач" />
     <div v-if="!$v.name.required && $v.name.$dirty" class="error">
       Field is required
@@ -53,8 +60,10 @@ export default {
       name: "",
       patronymic: "",
       phone_number: "",
+      sex_list: ["Женский", "Мужской"],
       client_groups: ["VIP", "Проблемные", "ОМС"],
       practitioners: ["Иванов", "Захаров", "Чернышева"],
+      selectedClientGroup: [],
     };
   },
 
@@ -68,6 +77,16 @@ export default {
     patronymic: {},
     phone_number: {
       required,
+    },
+    selectedClientGroup: {
+      required,
+    },
+  },
+
+  methods: {
+    onSelection(event) {
+      this.selectedClientGroup = event;
+      this.$v.selectedClientGroup.$touch();
     },
   },
 };
