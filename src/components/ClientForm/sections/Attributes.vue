@@ -33,6 +33,12 @@
       @selection="onSelection"
     />
     <FormSelector :options="practitioners" label="Лечащий врач" />
+    <!-- v-model="doNotSendSMS" -->
+    <FormCheckbox
+      v-model="doNotSendSMS"
+      name="doNotSendSMS"
+      label="Не отправлять СМС"
+    />
     <div v-if="!$v.name.required && $v.name.$dirty" class="error">
       Field is required
     </div>
@@ -44,6 +50,7 @@ import { required } from "vuelidate/lib/validators";
 import FormInput from "../FormInput.vue";
 import PhoneInput from "../PhoneInput.vue";
 import FormSelector from "../FormSelector.vue";
+import FormCheckbox from "../FormCheckbox.vue";
 
 export default {
   name: "AttributesSection",
@@ -52,6 +59,7 @@ export default {
     FormInput,
     PhoneInput,
     FormSelector,
+    FormCheckbox,
   },
 
   data() {
@@ -64,6 +72,7 @@ export default {
       clientGroups: ["VIP", "Проблемные", "ОМС"],
       practitioners: ["Иванов", "Захаров", "Чернышева"],
       selectedClientGroup: [],
+      doNotSendSMS: false,
     };
   },
 
@@ -92,5 +101,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 </style>
