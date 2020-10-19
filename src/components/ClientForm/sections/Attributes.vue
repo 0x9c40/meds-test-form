@@ -1,5 +1,13 @@
 <template>
   <div class="form-section">
+    <FormDatePicker
+      v-model="$v.DOB.$model"
+      label="Дата рождения*"
+      name="DOB"
+      :error="$v.DOB.$error && toucher"
+    >
+      <div v-if="DOBRequiredError">Требуется указать дату рождения.</div>
+    </FormDatePicker>
     <FormInput
       v-model.trim="$v.surname.$model"
       label="Фамилия*"
@@ -48,7 +56,6 @@
       <div v-if="clientGroupsRequiredError">Нужно выбрать группу.</div>
     </FormSelector>
     <FormSelector :options="practitioners" label="Лечащий врач" />
-    <!-- v-model="doNotSendSMS" -->
     <FormCheckbox
       v-model="doNotSendSMS"
       name="doNotSendSMS"
@@ -63,6 +70,7 @@ import FormInput from "../FormInput.vue";
 import PhoneInput from "../PhoneInput.vue";
 import FormSelector from "../FormSelector.vue";
 import FormCheckbox from "../FormCheckbox.vue";
+import FormDatePicker from "../FormDatePicker.vue";
 
 export default {
   name: "AttributesSection",
@@ -72,6 +80,7 @@ export default {
     PhoneInput,
     FormSelector,
     FormCheckbox,
+    FormDatePicker,
   },
 
   props: {
@@ -86,6 +95,7 @@ export default {
       surname: "",
       name: "",
       patronymic: "",
+      DOB: "",
       phoneNumber: "",
       genderList: ["Женский", "Мужской"],
       clientGroups: ["VIP", "Проблемные", "ОМС"],
@@ -118,6 +128,9 @@ export default {
     selectedClientGroup: {
       required,
     },
+    DOB: {
+      required,
+    },
   },
 
   computed: {
@@ -136,6 +149,9 @@ export default {
     },
     nameMinLengthError() {
       return !this.$v.name.minLength && this.$v.name.$dirty && this.toucher;
+    },
+    DOBRequiredError() {
+      return !this.$v.DOB.required && this.$v.DOB.$dirty && this.toucher;
     },
     phoneNumberStartsWithSevenError() {
       return (
@@ -163,6 +179,7 @@ export default {
   watch: {
     touch() {
       this.toucher = true;
+      this.$v.$touch();
     },
   },
 
