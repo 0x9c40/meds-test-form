@@ -19,14 +19,14 @@
       :error="$v.patronymic.$error"
     />
     <PhoneInput
-      v-model.trim="$v.phone_number.$model"
+      v-model.trim="$v.phoneNumber.$model"
       label="Номер телефона*"
-      name="phone_number"
-      :error="$v.phone_number.$error"
+      name="phoneNumber"
+      :error="$v.phoneNumber.$error"
     />
-    <FormSelector :options="sex_list" label="Пол" />
+    <FormSelector :options="genderList" label="Пол" />
     <FormSelector
-      :options="client_groups"
+      :options="clientGroups"
       label="Группа клиентов*"
       multiple
       :error="$v.selectedClientGroup.$error"
@@ -59,9 +59,9 @@ export default {
       surname: "",
       name: "",
       patronymic: "",
-      phone_number: "",
-      sex_list: ["Женский", "Мужской"],
-      client_groups: ["VIP", "Проблемные", "ОМС"],
+      phoneNumber: "",
+      genderList: ["Женский", "Мужской"],
+      clientGroups: ["VIP", "Проблемные", "ОМС"],
       practitioners: ["Иванов", "Захаров", "Чернышева"],
       selectedClientGroup: [],
     };
@@ -75,7 +75,7 @@ export default {
       required,
     },
     patronymic: {},
-    phone_number: {
+    phoneNumber: {
       required,
     },
     selectedClientGroup: {

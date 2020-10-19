@@ -129,7 +129,6 @@ export default {
   border: 1px solid #e8e8e8;
   transition: border 0.1s ease;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  // border-radius: 5px;
 
   &--selected {
     background-color: darken(#e8e8e8, 0.2);
