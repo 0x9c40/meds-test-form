@@ -1,5 +1,5 @@
 <template>
-  <div class="selected-options">
+  <div class="selected-options" :class="{ 'selected-options--error': error }">
     <span v-if="options.length === 0">-- Не выбрано --</span>
     <span
       v-for="option in options"
@@ -18,6 +18,10 @@ export default {
     options: {
       type: Array,
       default: () => [],
+    },
+    error: {
+      default: false,
+      type: Boolean,
     },
   },
 };
@@ -39,6 +43,10 @@ export default {
 
   &:hover {
     border-color: #cfcfcf;
+  }
+
+  &--error {
+    border-color: red;
   }
 
   &__option {

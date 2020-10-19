@@ -1,6 +1,6 @@
 <template>
   <form class="form">
-    <AttributesFormSection :touch="touch" />
+    <AttributesFormSection :is-form-dirty="dirty" />
     <div class="mandatory-field-tip">* - обязательное поле</div>
     <input type="button" value="Создать" @click="createUser" />
   </form>
@@ -18,13 +18,13 @@ export default {
 
   data() {
     return {
-      touch: 0,
+      dirty: false,
     };
   },
 
   methods: {
     createUser() {
-      this.touch++;
+      this.dirty = true;
     },
   },
 };

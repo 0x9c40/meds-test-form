@@ -4,7 +4,7 @@
       v-model="$v.DOB.$model"
       label="Дата рождения*"
       name="DOB"
-      :error="$v.DOB.$error && toucher"
+      :error="$v.DOB.$error && isFormDirty"
     >
       <div v-if="DOBRequiredError">Требуется указать дату рождения.</div>
     </FormDatePicker>
@@ -12,7 +12,7 @@
       v-model.trim="$v.surname.$model"
       label="Фамилия*"
       name="surname"
-      :error="$v.surname.$error && toucher"
+      :error="$v.surname.$error && isFormDirty"
     >
       <div v-if="surnameRequiredError">Требуется заполнить поле.</div>
       <div v-if="surnameMinLengthError">Минимум 3 символа.</div>
@@ -21,7 +21,7 @@
       v-model.trim="$v.name.$model"
       label="Имя*"
       name="name"
-      :error="$v.name.$error && toucher"
+      :error="$v.name.$error && isFormDirty"
     >
       <div v-if="nameRequiredError">Требуется заполнить поле.</div>
       <div v-if="nameMinLengthError">Минимум 3 символа.</div>
@@ -36,7 +36,7 @@
       v-model.trim="$v.phoneNumber.$model"
       label="Номер телефона*"
       name="phoneNumber"
-      :error="$v.phoneNumber.$error && toucher"
+      :error="$v.phoneNumber.$error && isFormDirty"
     >
       <div v-if="phoneNumberStartsWithSevenError">
         Номер телефона должен начинаться с цифры "7".
@@ -45,17 +45,21 @@
         Номер телефона должен содержать 11 цифр.
       </div>
     </PhoneInput>
-    <FormSelector :options="genderList" label="Пол" />
+    <FormSelector v-model="selectedGender" :options="genderList" label="Пол" />
     <FormSelector
+      v-model="selectedClientGroups"
       :options="clientGroups"
       label="Группа клиентов*"
       multiple
-      :error="$v.selectedClientGroup.$error && toucher"
-      @selection="onSelection"
+      :error="$v.selectedClientGroups.$error && isFormDirty"
     >
       <div v-if="clientGroupsRequiredError">Нужно выбрать группу.</div>
     </FormSelector>
-    <FormSelector :options="practitioners" label="Лечащий врач" />
+    <FormSelector
+      v-model="selectedPractitioner"
+      :options="practitioners"
+      label="Лечащий врач"
+    />
     <FormCheckbox
       v-model="doNotSendSMS"
       name="doNotSendSMS"
@@ -84,9 +88,9 @@ export default {
   },
 
   props: {
-    touch: {
-      type: Number,
-      default: 0,
+    isFormDirty: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -98,11 +102,12 @@ export default {
       DOB: "",
       phoneNumber: "",
       genderList: ["Женский", "Мужской"],
+      selectedGender: "",
       clientGroups: ["VIP", "Проблемные", "ОМС"],
+      selectedClientGroups: [],
       practitioners: ["Иванов", "Захаров", "Чернышева"],
-      selectedClientGroup: [],
+      selectedPractitioner: "",
       doNotSendSMS: false,
-      toucher: false,
     };
   },
 
@@ -125,7 +130,7 @@ export default {
         return val.length === 11;
       },
     },
-    selectedClientGroup: {
+    selectedClientGroups: {
       required,
     },
     DOB: {
@@ -136,57 +141,49 @@ export default {
   computed: {
     surnameRequiredError() {
       return (
-        !this.$v.surname.required && this.$v.surname.$dirty && this.toucher
+        !this.$v.surname.required && this.$v.surname.$dirty && this.isFormDirty
       );
     },
     surnameMinLengthError() {
       return (
-        !this.$v.surname.minLength && this.$v.surname.$dirty && this.toucher
+        !this.$v.surname.minLength && this.$v.surname.$dirty && this.isFormDirty
       );
     },
     nameRequiredError() {
-      return !this.$v.name.required && this.$v.name.$dirty && this.toucher;
+      return !this.$v.name.required && this.$v.name.$dirty && this.isFormDirty;
     },
     nameMinLengthError() {
-      return !this.$v.name.minLength && this.$v.name.$dirty && this.toucher;
+      return !this.$v.name.minLength && this.$v.name.$dirty && this.isFormDirty;
     },
     DOBRequiredError() {
-      return !this.$v.DOB.required && this.$v.DOB.$dirty && this.toucher;
+      return !this.$v.DOB.required && this.$v.DOB.$dirty && this.isFormDirty;
     },
     phoneNumberStartsWithSevenError() {
       return (
         !this.$v.phoneNumber.startsWithSeven &&
         this.$v.phoneNumber.$dirty &&
-        this.toucher
+        this.isFormDirty
       );
     },
     phoneNumberElevenDigitsError() {
       return (
         !this.$v.phoneNumber.elevenDigits &&
         this.$v.phoneNumber.$dirty &&
-        this.toucher
+        this.isFormDirty
       );
     },
     clientGroupsRequiredError() {
       return (
-        !this.$v.selectedClientGroup.required &&
-        this.$v.selectedClientGroup.$dirty &&
-        this.toucher
+        !this.$v.selectedClientGroups.required &&
+        this.$v.selectedClientGroups.$dirty &&
+        this.isFormDirty
       );
     },
   },
 
   watch: {
-    touch() {
-      this.toucher = true;
+    isFormDirty() {
       this.$v.$touch();
-    },
-  },
-
-  methods: {
-    onSelection(event) {
-      this.selectedClientGroup = event;
-      this.$v.selectedClientGroup.$touch();
     },
   },
 };

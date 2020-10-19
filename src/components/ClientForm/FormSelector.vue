@@ -9,19 +9,22 @@
     </div>
     <SelectedOptions
       :options="selectedOptions"
+      :error="error"
       @click.native="toggleOptionsList"
     />
-    <div v-show="isSelectorOpened" class="form-selector-options">
-      <div
-        v-for="option in options"
-        :key="option"
-        class="selector-option"
-        :class="{
-          'selector-option--selected': selectedOptions.includes(option),
-        }"
-        @click="toggleSelectionFor(option)"
-      >
-        {{ option }}
+    <div class="form-selector-options-wrapper">
+      <div v-show="isSelectorOpened" class="form-selector-options">
+        <div
+          v-for="option in options"
+          :key="option"
+          class="selector-option"
+          :class="{
+            'selector-option--selected': selectedOptions.includes(option),
+          }"
+          @click="toggleSelectionFor(option)"
+        >
+          {{ option }}
+        </div>
       </div>
     </div>
     <div class="form-selector-error">
@@ -103,7 +106,12 @@ export default {
         }
         this.select(option);
       }
-      this.$emit("selection", this.selectedOptions);
+
+      if (this.multiple) {
+        this.$emit("input", this.selectedOptions);
+      } else {
+        this.$emit("input", ...this.selectedOptions);
+      }
     },
   },
 };
@@ -129,12 +137,24 @@ export default {
   }
 }
 
+.form-selector-options-wrapper {
+  position: relative;
+}
+
+.form-selector-options {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+
 .selector-option {
   margin: 3px 0px;
   padding: 10px;
   border: 1px solid #e8e8e8;
   transition: border 0.1s ease;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 
   &--selected {
     background-color: darken(#e8e8e8, 0.2);
