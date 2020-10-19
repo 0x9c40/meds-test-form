@@ -45,6 +45,7 @@ export default {
 <style lang="scss">
 .form-group {
   margin-bottom: 16px;
+
   &__label {
     font-family: "Roboto", sans-serif;
     display: inline-block;
@@ -60,7 +61,6 @@ export default {
     color: #374853;
     border: 1px solid #e8e8e8;
     border-radius: 5px;
-    background: #fff;
     width: 100%;
     height: 36px;
     padding: 0 10px;
