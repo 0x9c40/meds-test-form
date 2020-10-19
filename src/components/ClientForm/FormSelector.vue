@@ -24,6 +24,9 @@
         {{ option }}
       </div>
     </div>
+    <div class="form-selector-error">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -94,7 +97,10 @@ export default {
       if (this.isSelected(option)) {
         this.deselect(option);
       } else {
-        if (!this.multiple) this.emptySelectedOptions();
+        if (!this.multiple) {
+          this.emptySelectedOptions();
+          this.toggleOptionsList();
+        }
         this.select(option);
       }
       this.$emit("selection", this.selectedOptions);
@@ -142,5 +148,12 @@ export default {
   &:hover {
     border-color: #cfcfcf;
   }
+}
+
+.form-selector-error {
+  font-family: "Roboto", sans-serif;
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
 }
 </style>

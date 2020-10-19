@@ -14,6 +14,9 @@
       :class="{ 'form-group__input--error': error }"
       @input="$emit('input', $event.target.value)"
     />
+    <div class="form-group-error">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -44,12 +47,12 @@ export default {
 
 <style lang="scss">
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 
   &__label {
     font-family: "Roboto", sans-serif;
     display: inline-block;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 
     &--error {
       color: red;
@@ -62,7 +65,7 @@ export default {
     border: 1px solid #e8e8e8;
     border-radius: 5px;
     width: 100%;
-    height: 36px;
+    height: 32px;
     padding: 0 10px;
     font-size: 16px;
     transition: border 0.1s ease;
@@ -80,5 +83,11 @@ export default {
       outline: none;
     }
   }
+}
+.form-group-error {
+  font-family: "Roboto", sans-serif;
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
 }
 </style>

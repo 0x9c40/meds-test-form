@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
 .form-checkbox {
   display: flex;
-  height: 36px;
+  height: 30px;
   align-items: center;
 
   &__checkbox {

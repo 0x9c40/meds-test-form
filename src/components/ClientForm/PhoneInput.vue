@@ -5,7 +5,9 @@
     :error="error"
     :value="value"
     @input="$emit('input', $event)"
-  />
+  >
+    <slot></slot>
+  </FormInput>
 </template>
 
 <script>
